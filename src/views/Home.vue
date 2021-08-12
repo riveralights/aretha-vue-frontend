@@ -5,6 +5,7 @@
     <WomenBanner />
     <InstagramGallery />
     <PartnerLogo />
+    <Footer />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import HeroCarousel from '../components/HeroCarousel.vue'
 import WomenBanner from '../components/WomenBanner.vue'
 import InstagramGallery from '../components/InstagramGallery.vue'
 import PartnerLogo from '../components/PartnerLogo.vue'
+import Footer from '../components/Footer.vue'
 
 export default {
   name: 'Home',
@@ -24,6 +26,7 @@ export default {
     WomenBanner,
     InstagramGallery,
     PartnerLogo,
+    Footer,
   }
 }
 </script>
