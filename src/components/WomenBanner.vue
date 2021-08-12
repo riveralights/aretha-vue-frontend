@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12 mt-5">
-          <carousel class="product-slider" :dots="true" :nav="false" :autoplay="true" :loop="true">
+          <carousel class="product-slider" :dots="true" :nav="false" :autoplay="true" :loop="true" :margin="25">
             <div class="product-item">
               <div class="pi-pic">
                 <img src="img/satin-1.png" alt="" />

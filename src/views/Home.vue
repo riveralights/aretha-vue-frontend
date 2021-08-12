@@ -3,6 +3,8 @@
     <Navbar />
     <HeroCarousel />
     <WomenBanner />
+    <InstagramGallery />
+    <PartnerLogo />
   </div>
 </template>
 
@@ -11,6 +13,8 @@
 import Navbar from '../components/Navbar.vue'
 import HeroCarousel from '../components/HeroCarousel.vue'
 import WomenBanner from '../components/WomenBanner.vue'
+import InstagramGallery from '../components/InstagramGallery.vue'
+import PartnerLogo from '../components/PartnerLogo.vue'
 
 export default {
   name: 'Home',
@@ -18,6 +22,8 @@ export default {
     Navbar,
     HeroCarousel,
     WomenBanner,
+    InstagramGallery,
+    PartnerLogo,
   }
 }
 </script>
