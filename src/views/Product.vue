@@ -94,6 +94,8 @@
     </section>
     <!-- Product Shop Section End -->
 
+    <RelatedProduct />
+
     <Footer />
   </div>
 </template>
@@ -102,6 +104,7 @@
 // @ is an alias to /src
 import Navbar from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
+import RelatedProduct from '../components/RelatedProduct.vue';
 import carousel from "vue-owl-carousel";
 
 export default {
@@ -110,6 +113,7 @@ export default {
     Navbar,
     Footer,
     carousel,
+    RelatedProduct,
   },
   data() {
       return {
