@@ -27,28 +27,26 @@
                 <div class="product-pic-zoom">
                   <img class="product-big-img" :src="defaultImage" alt="" />
                 </div>
-                <div class="product-thumbs">
+                <div
+                  class="product-thumbs"
+                  v-if="productDetails.galleries.length > 0"
+                >
                   <carousel
                     :dots="false"
                     :nav="false"
                     :margin="14"
-                    :loop="true"
                     class="product-thumbs-track ps-slider"
                   >
-                    <div class="pt" :class="thumbnail[0] == defaultImage ? 'active' : ''" @click="changeImage(thumbnail[0])">
-                      <img src="img/satin-1.png" alt="" />
-                    </div>
-
-                    <div class="pt" :class="thumbnail[1] == defaultImage ? 'active' : ''" @click="changeImage(thumbnail[1])">
-                      <img src="img/satin-2.png" alt="" />
-                    </div>
-
-                    <div class="pt" :class="thumbnail[2] == defaultImage ? 'active' : ''"  @click="changeImage(thumbnail[2])">
-                      <img src="img/satin-3.png" alt="" />
-                    </div>
-
-                    <div class="pt" :class="thumbnail[3] == defaultImage ? 'active' : ''" @click="changeImage(thumbnail[3])">
-                      <img src="img/satin-4.png" alt="" />
+                    <div
+                      v-for="productImage in productDetails.galleries"
+                      :key="productImage.id"
+                      class="pt"
+                      :class="
+                        productImage.photo == defaultImage ? 'active' : ''
+                      "
+                      @click="changeImage(productImage.photo)"
+                    >
+                      <img v-bind:src="productImage.photo" alt="" />
                     </div>
                   </carousel>
                 </div>
@@ -56,29 +54,12 @@
               <div class="col-lg-6">
                 <div class="product-details">
                   <div class="pd-title">
-                    <span>Shirt</span>
-                    <h3>Blue Satin Sleeve</h3>
+                    <span>{{ productDetails.type }}</span>
+                    <h3 class="my-4">{{ productDetails.name }}</h3>
                   </div>
                   <div class="pd-desc">
-                    <p>
-                      Sebuah kaos berwarna biru yang terbuat dari bahan satin
-                      yang dilengkapi dengan pita membuat anda merasa cantik dan
-                      percaya diri secara bersamaan.
-                    </p>
-                    <p>
-                      Baju ini memiliki desain lengan yang panjang dan pattern
-                      collar yang indah. Selendang dibuat dengan bahan yang sama
-                      dan bentuk yang dikalkukasi sehingga menghasilkan desain
-                      yang <em>assymetric</em>. Memiliki pola kancing dibagian
-                      depan kaos sehingga pengguna dapat lebih mudah dan nyaman
-                      dalam menggapai kancing. Baju ini memiliki warna biru
-                      langit, sangat cocok untuk anda gunakan pada saat liburan
-                      musim panas. Bagian luar dibuat dengan bahan 100% dari
-                      polyester asli. Barang tersedia dalam berbagai ukuran dari
-                      XS hingga XXL.
-                    </p>
-                    <p></p>
-                    <h4>$72.50</h4>
+                    <span v-html="productDetails.description" class="text-justify"></span>
+                    <h4 class="my-4">${{ productDetails.price }}.00</h4>
                   </div>
                   <div class="quantity">
                     <router-link to="/shopping-cart" class="primary-btn pd-cart"
@@ -104,8 +85,9 @@
 // @ is an alias to /src
 import Navbar from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
-import RelatedProduct from '../components/RelatedProduct.vue';
+import RelatedProduct from "../components/RelatedProduct.vue";
 import carousel from "vue-owl-carousel";
+import axios from "axios";
 
 export default {
   name: "Home",
@@ -116,20 +98,37 @@ export default {
     RelatedProduct,
   },
   data() {
-      return {
-          defaultImage: "img/satin-1.png",
-          thumbnail: [
-              'img/satin-1.png',
-              'img/satin-2.png',
-              'img/satin-3.png',
-              'img/satin-4.png',
-          ]
-      }
+    return {
+      defaultImage: "img/satin-1.png",
+      thumbnail: [
+        "img/satin-1.png",
+        "img/satin-2.png",
+        "img/satin-3.png",
+        "img/satin-4.png",
+      ],
+      productDetails: [],
+    };
   },
   methods: {
-      changeImage(imageUrl) {
-          this.defaultImage = imageUrl
-      }
-  }
+    changeImage(imageUrl) {
+      this.defaultImage = imageUrl;
+    },
+    setDataPicture(data) {
+      // replace object productDetails dengan data dari API
+      this.productDetails = data;
+      // replance value default images dengan data dari API
+      this.defaultImage = data.galleries[0].photo;
+    },
+  },
+  mounted() {
+    axios
+      .get("http://127.0.0.1:8000/api/product", {
+        params: {
+          id: this.$route.params.id,
+        },
+      })
+      .then((result) => this.setDataPicture(result.data.data))
+      .catch((error) => console.log(error));
+  },
 };
 </script>

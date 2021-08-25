@@ -13,7 +13,7 @@
                     <a href="#"><i class="icon_bag_alt"></i></a>
                   </li>
                   <li class="quick-view">
-                    <router-link to="/product">+ Quick View</router-link>
+                    <router-link v-bind:to="'product/'+product.id">+ Quick View</router-link>
                   </li>
                 </ul>
               </div>
@@ -23,7 +23,7 @@
                   <h5>{{ product.name }}</h5>
                 </a>
                 <div class="product-price">
-                 {{ product.price }}
+                 ${{ product.price }}.00
                   <span>$85.00</span>
                 </div>
               </div>
