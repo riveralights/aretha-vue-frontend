@@ -58,12 +58,30 @@
                     <h3 class="my-4">{{ productDetails.name }}</h3>
                   </div>
                   <div class="pd-desc">
-                    <span v-html="productDetails.description" class="text-justify"></span>
+                    <p
+                      v-html="productDetails.description"
+                      class="text-justify"
+                    ></p>
                     <h4 class="my-4">${{ productDetails.price }}.00</h4>
                   </div>
                   <div class="quantity">
-                    <router-link to="/shopping-cart" class="primary-btn pd-cart"
+                    <!-- <router-link to="/shopping-cart" class="primary-btn pd-cart"
                       >Add To Cart</router-link
+                    > -->
+                    <router-link to="/shopping-cart"
+                      ><a
+                        href="#"
+                        @click="
+                          saveToCart(
+                            productDetails.id,
+                            productDetails.name,
+                            productDetails.price,
+                            productDetails.galleries[0].photo
+                          )
+                        "
+                        class="primary-btn pd-cart"
+                        >Add to Cart</a
+                      ></router-link
                     >
                   </div>
                 </div>
@@ -99,14 +117,9 @@ export default {
   },
   data() {
     return {
-      defaultImage: "img/satin-1.png",
-      thumbnail: [
-        "img/satin-1.png",
-        "img/satin-2.png",
-        "img/satin-3.png",
-        "img/satin-4.png",
-      ],
+      defaultImage: "",
       productDetails: [],
+      cartUser: [],
     };
   },
   methods: {
@@ -119,8 +132,28 @@ export default {
       // replance value default images dengan data dari API
       this.defaultImage = data.galleries[0].photo;
     },
+    saveToCart(idProduct, nameProduct, priceProduct, photoProduct) {
+      let productStored = {
+        id: idProduct,
+        name: nameProduct,
+        price: priceProduct,
+        photo: photoProduct,
+      };
+
+      this.cartUser.push(productStored);
+      const parsed = JSON.stringify(this.cartUser);
+      localStorage.setItem("cartUser", parsed);
+    },
   },
   mounted() {
+    if (localStorage.getItem("cartUser")) {
+      try {
+        this.cartUser = JSON.parse(localStorage.getItem("cartUser"));
+      } catch (e) {
+        localStorage.removeItem("cartUser");
+      }
+    }
+
     axios
       .get("http://127.0.0.1:8000/api/product", {
         params: {
